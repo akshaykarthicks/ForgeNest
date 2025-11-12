@@ -1,0 +1,221 @@
+---
+title: API Endpoints
+description: Complete API reference for the Habit Tracker
+---
+
+# API Endpoints
+
+## Authentication
+
+### Register
+
+Create a new user account.
+
+```http
+POST /api/habits/register
+```
+
+**Request Body:**
+```json
+{
+  "username": "john_doe",
+  "email": "john@example.com",
+  "password": "securepassword"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "user_id": 1
+}
+```
+
+## Habits Management
+
+### List All Habits
+
+Get all habits for the authenticated user.
+
+```http
+GET /api/habits/habits
+Authorization: Bearer <token>
+```
+
+**Response:**
+```json
+[
+  {
+    "id": 1,
+    "name": "Morning Exercise",
+    "description": "30 minutes of exercise every morning",
+    "created_at": "2024-01-15T08:00:00Z"
+  }
+]
+```
+
+### Create Habit
+
+Create a new habit.
+
+```http
+POST /api/habits/
+Authorization: Bearer <token>
+```
+
+**Request Body:**
+```json
+{
+  "name": "Read Daily",
+  "description": "Read for at least 20 minutes every day"
+}
+```
+
+### Get Habit Details
+
+Get detailed statistics for a specific habit.
+
+```http
+GET /api/habits/habits/{id}/detail
+Authorization: Bearer <token>
+```
+
+**Response:**
+```json
+{
+  "id": 1,
+  "name": "Morning Exercise",
+  "description": "30 minutes of exercise",
+  "created_at": "2024-01-15T08:00:00Z",
+  "current_streak": 7,
+  "longest_streak": 15,
+  "total_completions": 42
+}
+```
+
+### Update Habit
+
+```http
+PUT /api/habits/habits/{id}
+Authorization: Bearer <token>
+```
+
+### Delete Habit
+
+```http
+DELETE /api/habits/habits/{id}
+Authorization: Bearer <token>
+```
+
+## Habit Entries
+
+### Log Completion
+
+Mark a habit as completed for a specific date.
+
+```http
+POST /api/habits/habits/{habit_id}/entries
+Authorization: Bearer <token>
+```
+
+**Request Body:**
+```json
+{
+  "date": "2024-01-15",
+  "completed": true
+}
+```
+
+### Get Entry History
+
+```http
+GET /api/habits/habits/{habit_id}/entries
+Authorization: Bearer <token>
+```
+
+## Streak Challenges
+
+### Create Challenge
+
+Challenge a friend to maintain a habit together.
+
+```http
+POST /api/habits/challenges/create/
+Authorization: Bearer <token>
+```
+
+**Request Body:**
+```json
+{
+  "habit_id": 1,
+  "friend_username": "jane_doe"
+}
+```
+
+### Respond to Challenge
+
+Accept or reject a challenge invitation.
+
+```http
+POST /api/habits/challenges/{challenge_id}/respond/
+Authorization: Bearer <token>
+```
+
+**Request Body:**
+```json
+{
+  "accepted": true
+}
+```
+
+### Log Challenge Completion
+
+Log your daily completion for an active challenge.
+
+```http
+POST /api/habits/challenges/{challenge_id}/log/
+Authorization: Bearer <token>
+```
+
+**Query Parameters:**
+- `log_date` (optional): Date in YYYY-MM-DD format. Defaults to today.
+
+**Response:**
+```json
+{
+  "success": true,
+  "date": "2024-01-15",
+  "current_streak": 5,
+  "highest_streak": 8,
+  "is_active": true,
+  "message": "Challenge continues! Current streak: 5"
+}
+```
+
+### Get Challenge Status
+
+View detailed status and history of a challenge.
+
+```http
+GET /api/habits/challenges/{challenge_id}/status/
+Authorization: Bearer <token>
+```
+
+### List All Challenges
+
+Get all challenges you're participating in.
+
+```http
+GET /api/habits/challenges/
+Authorization: Bearer <token>
+```
+
+### End Challenge
+
+Manually end an active challenge.
+
+```http
+POST /api/habits/challenges/{challenge_id}/end/
+Authorization: Bearer <token>
+```

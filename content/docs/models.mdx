@@ -1,0 +1,150 @@
+---
+title: Data Models
+description: Understanding the database structure
+---
+
+# Data Models
+
+The Habit Tracker API uses the following data models.
+
+## Habit
+
+Represents a habit that a user wants to track.
+
+**Fields:**
+- `id` (int): Unique identifier
+- `user` (ForeignKey): The user who owns this habit
+- `name` (string): Name of the habit (max 100 characters)
+- `description` (text): Detailed description
+- `created_at` (datetime): When the habit was created
+
+**Example:**
+```json
+{
+  "id": 1,
+  "name": "Morning Exercise",
+  "description": "30 minutes of exercise every morning",
+  "created_at": "2024-01-15T08:00:00Z"
+}
+```
+
+## HabitEntry
+
+Records daily completions for a habit.
+
+**Fields:**
+- `id` (int): Unique identifier
+- `habit` (ForeignKey): The associated habit
+- `date` (date): The date of this entry
+- `completed` (boolean): Whether the habit was completed
+
+**Constraints:**
+- Unique together: `habit` and `date` (one entry per habit per day)
+
+**Example:**
+```json
+{
+  "id": 42,
+  "date": "2024-01-15",
+  "completed": true
+}
+```
+
+## StreakChallenge
+
+Represents a challenge between two users to maintain a habit.
+
+**Fields:**
+- `id` (int): Unique identifier
+- `habit` (ForeignKey): The habit being challenged
+- `creator` (ForeignKey): User who created the challenge
+- `friend` (ForeignKey): User who was invited
+- `start_date` (date): When the challenge started
+- `end_date` (date, nullable): When the challenge ended
+- `current_streak` (int): Current consecutive days both completed
+- `highest_streak` (int): Highest streak achieved during challenge
+- `is_active` (boolean): Whether the challenge is ongoing
+- `status` (string): Current status (pending/accepted/rejected/completed)
+- `winner` (ForeignKey, nullable): User who won (if applicable)
+- `last_checked` (date): Last time streak was updated
+
+**Status Values:**
+- `pending`: Waiting for friend to accept
+- `accepted`: Active challenge
+- `rejected`: Friend declined
+- `completed`: Challenge has ended
+
+**Example:**
+```json
+{
+  "id": 5,
+  "habit_id": 1,
+  "habit_name": "Morning Exercise",
+  "creator": "john_doe",
+  "friend": "jane_doe",
+  "current_streak": 7,
+  "highest_streak": 12,
+  "is_active": true,
+  "status": "accepted",
+  "start_date": "2024-01-01",
+  "end_date": null,
+  "winner": null
+}
+```
+
+## StreakChallengeEntry
+
+Records daily completions for a challenge participant.
+
+**Fields:**
+- `id` (int): Unique identifier
+- `challenge` (ForeignKey): The associated challenge
+- `user` (ForeignKey): The participant
+- `date` (date): The date of this entry
+- `completed` (boolean): Whether the user completed the habit
+
+**Constraints:**
+- Unique together: `challenge`, `user`, and `date`
+
+## ChallengeInvite
+
+Tracks challenge invitations (for future features).
+
+**Fields:**
+- `id` (int): Unique identifier
+- `challenge` (ForeignKey): The associated challenge
+- `inviter` (ForeignKey): User who sent the invite
+- `invitee` (ForeignKey): User who received the invite
+- `status` (string): Invite status (pending/accepted/rejected)
+- `created_at` (datetime): When the invite was sent
+
+**Constraints:**
+- Unique together: `challenge` and `invitee`
+
+## Relationships
+
+```
+User
+ ├── Habit (one-to-many)
+ │    └── HabitEntry (one-to-many)
+ │
+ └── StreakChallenge (many-to-many via creator/friend)
+      └── StreakChallengeEntry (one-to-many)
+```
+
+## Streak Calculation
+
+Streaks are calculated dynamically based on `HabitEntry` and `StreakChallengeEntry` records:
+
+### Personal Habit Streaks
+
+- **Current Streak**: Consecutive days from today/yesterday backwards where `completed=True`
+- **Longest Streak**: Maximum consecutive days with `completed=True` in history
+
+### Challenge Streaks
+
+- **Combined Streak**: Consecutive days where BOTH participants completed
+- **Individual Streaks**: Each participant's personal consecutive completions
+- **Highest Streak**: Maximum combined streak achieved during the challenge
+
+The system automatically updates streaks when entries are logged and checks for missed days to end inactive challenges.

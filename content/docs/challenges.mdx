@@ -1,0 +1,150 @@
+---
+title: Streak Challenges
+description: Challenge friends to maintain habits together
+---
+
+# Streak Challenges
+
+Streak Challenges allow you to compete with friends to maintain habits consistently. Both participants must complete the habit daily to keep the streak alive.
+
+## How It Works
+
+1. **Create a Challenge**: Invite a friend to join you in maintaining a specific habit
+2. **Friend Accepts**: Your friend receives the invitation and can accept or decline
+3. **Daily Logging**: Both participants log their daily completions
+4. **Streak Tracking**: The system tracks your combined streak and individual progress
+5. **Challenge Ends**: The challenge ends when both participants miss 2 consecutive days, or when manually ended
+
+## Challenge Lifecycle
+
+### Creating a Challenge
+
+```http
+POST /api/habits/challenges/create/
+```
+
+```json
+{
+  "habit_id": 1,
+  "friend_username": "jane_doe"
+}
+```
+
+**Rules:**
+- You can only have one active challenge per habit
+- You cannot challenge yourself
+- Previous challenges for the same habit will be automatically ended
+
+### Accepting/Rejecting
+
+When you receive a challenge invitation, you can respond:
+
+```http
+POST /api/habits/challenges/{challenge_id}/respond/
+```
+
+```json
+{
+  "accepted": true
+}
+```
+
+If rejected, the challenge is deleted. If accepted, the challenge becomes active.
+
+### Daily Logging
+
+Both participants must log their completions daily:
+
+```http
+POST /api/habits/challenges/{challenge_id}/log/
+```
+
+**Optional Query Parameter:**
+- `log_date`: Specify a date (YYYY-MM-DD). Defaults to today.
+
+### Streak Calculation
+
+The system calculates two types of streaks:
+
+1. **Combined Streak**: Days where BOTH participants completed the habit
+2. **Individual Streaks**: Each participant's personal streak
+
+The **highest combined streak** is tracked throughout the challenge.
+
+## Challenge Status
+
+### Active Challenge
+
+While active, you can check the status:
+
+```http
+GET /api/habits/challenges/{challenge_id}/status/
+```
+
+**Response includes:**
+- Current combined streak
+- Highest streak achieved
+- Daily completion history for both participants
+- Challenge metadata
+
+### Ending a Challenge
+
+Challenges can end in three ways:
+
+1. **Automatic**: Both participants miss 2 consecutive days
+2. **Manual**: Either participant ends it manually
+3. **Winner Declared**: When auto-ended, the participant with the higher individual streak wins
+
+```http
+POST /api/habits/challenges/{challenge_id}/end/
+```
+
+## Challenge States
+
+| Status | Description |
+|--------|-------------|
+| `pending` | Waiting for friend to accept |
+| `accepted` | Active and tracking streaks |
+| `completed` | Challenge has ended |
+| `rejected` | Friend declined (challenge deleted) |
+
+## Example Workflow
+
+```bash
+# User A creates a challenge
+POST /api/habits/challenges/create/
+{
+  "habit_id": 1,
+  "friend_username": "user_b"
+}
+
+# User B accepts
+POST /api/habits/challenges/5/respond/
+{
+  "accepted": true
+}
+
+# Day 1: Both log completion
+POST /api/habits/challenges/5/log/
+# Current streak: 1
+
+# Day 2: Both log completion
+POST /api/habits/challenges/5/log/
+# Current streak: 2
+
+# Day 3: Only User A logs
+POST /api/habits/challenges/5/log/
+# Current streak: 0 (both must complete)
+
+# Day 4: Both log again
+POST /api/habits/challenges/5/log/
+# Current streak: 1 (streak restarted)
+```
+
+## Best Practices
+
+- Log your completions daily to maintain streaks
+- Check challenge status regularly to see your progress
+- Communicate with your challenge partner
+- Set realistic habits that both participants can maintain
+- Use the 2-day grace period wisely - one missed day won't end the challenge

@@ -1,0 +1,104 @@
+---
+title: ForgeNest API Documentation
+description: Build better habits with streak tracking and social challenges
+---
+
+# ForgeNest - Habit Tracker API
+
+A powerful Django REST API for tracking daily habits, building streaks, and challenging friends to stay consistent. ForgeNest helps you turn your goals into lasting habits through gamification and social accountability.
+
+![ForgeNest Hero](/hero-image.png)
+
+## Why ForgeNest?
+
+- **🎯 Goal-Oriented**: Set meaningful goals and track progress with smart analytics
+- **🔥 Streak Tracking**: Build momentum with automatic streak calculation
+- **👥 Social Challenges**: Compete with friends to maintain habits together
+- **📊 Rich Analytics**: Visualize your progress with detailed statistics
+- **🔒 Secure**: JWT-based authentication keeps your data safe
+- **⚡ Fast**: Built with Django Ninja for high-performance API responses
+
+## Technology Stack
+
+- **Backend**: Django 5.1 + Django Ninja
+- **Database**: PostgreSQL (production) / SQLite (development)
+- **Authentication**: JWT (JSON Web Tokens)
+- **API Style**: RESTful with automatic OpenAPI documentation
+
+## Quick Links
+
+<Cards>
+  <Card title="🚀 Try Live App" href="https://forgenest.vercel.app/" description="Experience ForgeNest in action" />
+  <Card title="Getting Started" href="/docs/getting-started" description="Set up and start using the API" />
+  <Card title="API Reference" href="/docs/api-reference" description="Complete endpoint documentation" />
+  <Card title="Streak Challenges" href="/docs/challenges" description="Learn about social features" />
+  <Card title="Data Models" href="/docs/models" description="Understand the data structure" />
+</Cards>
+
+## Quick Start
+
+### Authentication
+
+All endpoints (except registration and login) require JWT authentication. Include the token in your request headers:
+
+```http
+Authorization: Bearer <your_jwt_token>
+```
+
+### Base URL
+
+```
+/api/habits/
+```
+
+### Example Request
+
+```bash
+curl -X GET http://localhost:8000/api/habits/habits \
+  -H "Authorization: Bearer <your_jwt_token>"
+```
+
+### Response Format
+
+All API responses follow a consistent JSON format:
+
+```json
+{
+  "id": 1,
+  "name": "Morning Exercise",
+  "description": "30 minutes of exercise every morning",
+  "created_at": "2024-01-15T08:00:00Z",
+  "current_streak": 7,
+  "longest_streak": 15
+}
+```
+
+## Key Features
+
+### Personal Habit Tracking
+
+Create unlimited habits and track daily completions. The system automatically calculates:
+- Current streak (consecutive days completed)
+- Longest streak achieved
+- Total completions
+- Completion rate
+
+### Streak Challenges
+
+Challenge friends to maintain habits together:
+- Both participants must complete daily to maintain the streak
+- Track combined and individual progress
+- Automatic winner determination
+- 2-day grace period before challenge ends
+
+### Smart Analytics
+
+Get insights into your habit patterns:
+- Daily completion history
+- Streak trends over time
+- Habit success rates
+- Challenge performance
+
+## Next Steps
+
+Ready to get started? Check out the [Getting Started Guide](/docs/getting-started) to set up your development environment and make your first API call.

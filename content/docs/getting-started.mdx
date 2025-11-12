@@ -1,0 +1,222 @@
+---
+title: Getting Started
+description: Start using the ForgeNest Habit Tracker API
+---
+
+# Getting Started
+
+Welcome to ForgeNest! This guide will help you start using the Habit Tracker API to build better habits.
+
+## Quick Overview
+
+ForgeNest is a RESTful API that helps you:
+- 📝 Track daily habits
+- 🔥 Build and maintain streaks
+- 👥 Challenge friends to habit competitions
+- 📊 Analyze your progress with detailed statistics
+
+## API Base URL
+
+```
+https://your-api-domain.com/api/habits/
+```
+
+For local development:
+```
+http://localhost:8000/api/habits/
+```
+
+## Authentication
+
+All API requests (except registration) require JWT authentication. Include your token in the request header:
+
+```http
+Authorization: Bearer <your-jwt-token>
+```
+
+## Quick Start Guide
+
+### Step 1: Create an Account
+
+Register a new user account:
+
+```bash
+curl -X POST http://localhost:8000/api/habits/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "john_doe",
+    "email": "john@example.com",
+    "password": "securepassword123"
+  }'
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "user_id": 1
+}
+```
+
+### Step 2: Get Your Access Token
+
+Obtain a JWT token for authentication (use your authentication endpoint):
+
+```bash
+# Token will be returned after successful login
+{
+  "access": "eyJ0eXAiOiJKV1QiLCJhbGc...",
+  "refresh": "eyJ0eXAiOiJKV1QiLCJhbGc..."
+}
+```
+
+### Step 3: Create Your First Habit
+
+```bash
+curl -X POST http://localhost:8000/api/habits/ \
+  -H "Authorization: Bearer <your-token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Morning Exercise",
+    "description": "30 minutes of exercise every morning"
+  }'
+```
+
+**Response:**
+```json
+{
+  "id": 1,
+  "name": "Morning Exercise",
+  "description": "30 minutes of exercise every morning",
+  "created_at": "2024-01-15T08:00:00Z"
+}
+```
+
+### Step 4: Log Your First Completion
+
+Mark your habit as completed for today:
+
+```bash
+curl -X POST http://localhost:8000/api/habits/habits/1/entries \
+  -H "Authorization: Bearer <your-token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "date": "2024-01-15",
+    "completed": true
+  }'
+```
+
+**Response:**
+```json
+{
+  "id": 1,
+  "date": "2024-01-15",
+  "completed": true
+}
+```
+
+### Step 5: View Your Progress
+
+Get detailed statistics for your habit:
+
+```bash
+curl -X GET http://localhost:8000/api/habits/habits/1/detail \
+  -H "Authorization: Bearer <your-token>"
+```
+
+**Response:**
+```json
+{
+  "id": 1,
+  "name": "Morning Exercise",
+  "description": "30 minutes of exercise every morning",
+  "created_at": "2024-01-15T08:00:00Z",
+  "current_streak": 7,
+  "longest_streak": 15,
+  "total_completions": 42
+}
+```
+
+## Common Use Cases
+
+### Track Multiple Habits
+
+List all your habits:
+
+```bash
+curl -X GET http://localhost:8000/api/habits/habits \
+  -H "Authorization: Bearer <your-token>"
+```
+
+### Challenge a Friend
+
+Create a streak challenge:
+
+```bash
+curl -X POST http://localhost:8000/api/habits/challenges/create/ \
+  -H "Authorization: Bearer <your-token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "habit_id": 1,
+    "friend_username": "jane_doe"
+  }'
+```
+
+### View Challenge Status
+
+Check your challenge progress:
+
+```bash
+curl -X GET http://localhost:8000/api/habits/challenges/5/status/ \
+  -H "Authorization: Bearer <your-token>"
+```
+
+## Response Format
+
+All API responses follow a consistent JSON format:
+
+**Success Response:**
+```json
+{
+  "id": 1,
+  "name": "Habit Name",
+  "...": "other fields"
+}
+```
+
+**Error Response:**
+```json
+{
+  "error": "Error message description"
+}
+```
+
+## Rate Limiting
+
+The API implements rate limiting to ensure fair usage:
+- **Authenticated requests**: 1000 requests per hour
+- **Unauthenticated requests**: 100 requests per hour
+
+## Best Practices
+
+1. **Store tokens securely**: Never expose your JWT tokens in client-side code
+2. **Handle token expiration**: Implement token refresh logic
+3. **Use HTTPS**: Always use HTTPS in production
+4. **Validate input**: Check data before sending to the API
+5. **Handle errors gracefully**: Implement proper error handling
+
+## Next Steps
+
+Now that you're set up, explore more features:
+
+<Cards>
+  <Card title="API Reference" href="/docs/api-reference" description="Complete endpoint documentation" />
+  <Card title="Streak Challenges" href="/docs/challenges" description="Learn about social features" />
+  <Card title="Data Models" href="/docs/models" description="Understand the data structure" />
+</Cards>
+
+## Need Help?
+
+- Check the [API Reference](/docs/api-reference) for detailed endpoint documentation
+- Learn about [Challenge Features](/docs/challenges) for social habit tracking
+- Review [Data Models](/docs/models) to understand the structure
