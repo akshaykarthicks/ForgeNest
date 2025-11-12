@@ -131,60 +131,57 @@ export default function HomePage() {
 
       {/* Social Features Section */}
       <section className="container mx-auto px-4 py-24 relative overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-950/10 dark:via-purple-950/10 dark:to-pink-950/10 -z-10"></div>
-        
         <div className="max-w-6xl mx-auto">
-          <div className="bg-gradient-to-br from-blue-100/50 to-purple-100/50 dark:from-blue-950/50 dark:to-purple-950/50 rounded-3xl p-12 md:p-16 text-center border-2 border-purple-200 dark:border-purple-800 backdrop-blur-sm">
+          <div className="text-center mb-12">
             <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
               Challenge Friends & Build Together
             </h2>
-            <p className="text-muted-foreground text-xl mb-12 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-muted-foreground text-xl max-w-3xl mx-auto leading-relaxed">
               Turn habit building into a social experience. Invite friends to streak challenges, compete for the longest streaks, and motivate each other to achieve your goals together.
             </p>
-            
-            {/* Challenge Friends Image with enhanced styling */}
-            <div className="mb-12 rounded-3xl overflow-hidden shadow-2xl border-2 border-purple-300 dark:border-purple-700 glow transform hover:scale-[1.02] transition-transform duration-500">
-              <Image 
-                src="/challenge-friends.png" 
-                alt="Social challenge feature showing meditation and self-love habit cards with streak tracking"
-                width={1200}
-                height={675}
-                className="w-full h-auto"
-              />
-            </div>
+          </div>
+          
+          {/* Challenge Friends Image with enhanced styling */}
+          <div className="mb-12 rounded-3xl overflow-hidden shadow-2xl border-2 border-purple-300 dark:border-purple-700 glow transform hover:scale-[1.02] transition-transform duration-500">
+            <Image 
+              src="/challenge-friends.png" 
+              alt="Social challenge feature showing meditation and self-love habit cards with streak tracking"
+              width={1200}
+              height={675}
+              className="w-full h-auto"
+            />
+          </div>
 
-            {/* Social Features */}
-            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              <div className="group bg-white/80 dark:bg-gray-900/80 rounded-2xl p-8 backdrop-blur-lg border-2 border-green-200 dark:border-green-800 card-hover">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform">
-                  <span className="text-3xl">🤝</span>
-                </div>
-                <h4 className="font-bold text-xl mb-3">Sign up</h4>
-                <p className="text-muted-foreground">
-                  Create an account and start tracking your habits.
-                </p>
+          {/* Social Features */}
+          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="group bg-white/80 dark:bg-gray-900/80 rounded-2xl p-8 backdrop-blur-lg border-2 border-green-200 dark:border-green-800 card-hover">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform">
+                <span className="text-3xl">🤝</span>
               </div>
-              
-              <div className="group bg-white/80 dark:bg-gray-900/80 rounded-2xl p-8 backdrop-blur-lg border-2 border-purple-200 dark:border-purple-800 card-hover">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform">
-                  <span className="text-3xl">👥</span>
-                </div>
-                <h4 className="font-bold text-xl mb-3">Challenge Friends</h4>
-                <p className="text-muted-foreground">
-                  Invite friends to join your habit journey and compete together.
-                </p>
+              <h4 className="font-bold text-xl mb-3">Sign up</h4>
+              <p className="text-muted-foreground">
+                Create an account and start tracking your habits.
+              </p>
+            </div>
+            
+            <div className="group bg-white/80 dark:bg-gray-900/80 rounded-2xl p-8 backdrop-blur-lg border-2 border-purple-200 dark:border-purple-800 card-hover">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform">
+                <span className="text-3xl">👥</span>
               </div>
-              
-              <div className="group bg-white/80 dark:bg-gray-900/80 rounded-2xl p-8 backdrop-blur-lg border-2 border-orange-200 dark:border-orange-800 card-hover">
-                <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform">
-                  <span className="text-3xl">📊</span>
-                </div>
-                <h4 className="font-bold text-xl mb-3">Track Progress</h4>
-                <p className="text-muted-foreground">
-                  See your streaks and completions at a glance.
-                </p>
+              <h4 className="font-bold text-xl mb-3">Challenge Friends</h4>
+              <p className="text-muted-foreground">
+                Invite friends to join your habit journey and compete together.
+              </p>
+            </div>
+            
+            <div className="group bg-white/80 dark:bg-gray-900/80 rounded-2xl p-8 backdrop-blur-lg border-2 border-orange-200 dark:border-orange-800 card-hover">
+              <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform">
+                <span className="text-3xl">📊</span>
               </div>
+              <h4 className="font-bold text-xl mb-3">Track Progress</h4>
+              <p className="text-muted-foreground">
+                See your streaks and completions at a glance.
+              </p>
             </div>
           </div>
         </div>
